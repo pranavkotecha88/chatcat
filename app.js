@@ -36,23 +36,6 @@ if(env === 'development'){
 	}));
 }
 
-// var userSchema = mongoose.Schema({
-// 	username:String,
-// 	password:String,
-// 	name:String
-// })
-
-// var Person = mongoose.model('users', userSchema);
-// var John = new Person({
-// 	name:'John Doe',
-// 	password:'1234',
-// 	username:'johnDoe'
-// })
-
-// John.save(function(err){
-// 	console.log('Done!');
-// })
-
 app.use(passport.initialize());
 app.use(passport.session());
 
