@@ -30,7 +30,7 @@ if(env === 'development'){
 		secret:config.sessionSecret,
 		store:new connectMongo({
 			// url:config.dbURL,
-			mongoose_connection:mongoose.connections[0],
+			mongooseConnection:mongoose.connections[0],
 			stringify:true
 		})
 	}));

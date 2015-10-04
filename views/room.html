@@ -18,6 +18,35 @@
 				console.log("connection in room established");
 				messages.emit('joinroom', {room:roomNum, user:userName, userPic:userPic})
 			})
+
+			messages.on('messagefeed', function(data){
+				var msgs = JSON.parse(data);
+				updateMessageFeed(msgs.userPic, msgs.message);
+			})
+
+			$(document).on('keyup', '.newmessage', function(e){
+				if(e.which === 13 && $(this).val() != '') {
+					messages.emit('newMessage', {
+						room_number:roomNum,
+						user:userName,
+						userPic:userPic,
+						message:$(this).val()
+					})
+					updateMessageFeed(userPic, $(this).val());
+					$(this).val('');
+				}
+			})
+
+			function updateMessageFeed(userPic, message) {
+					var str = '<li>';
+					str += '<div class="msgbox">';
+					str += '<div class="pic"><img src="'+userPic+'"></div>';
+					str += '<div class="msg"><p>'+message+'</p></div>';
+					str += '</div>';
+					str += '</li>';
+					$(str).hide().prependTo($('.messages')).slideDown(100);
+			}
+
 		})
 	</script>
 </head>
@@ -33,28 +62,16 @@
 		</div>
 		<div class="rm-messages">
 			<ul class="messages">
-				<li>
-					<div class="msgbox">
-						<div class="pic"><img src="../public/images/profilepic.jpg">Sachin Bhatnagar</div>
-						<div class="msg"><p>Hi there this looks nice !</p></div>
-					</div>
-				</li>
-				<li>
-					<div class="msgbox">
-						<div class="pic"><img src="../public/images/profilepic.jpg">Sachin Bhatnagar</div>
-						<div class="msg"><p>Hi there this looks nice !</p></div>
-					</div>
-				</li>
 			</ul>
 		</div>
 		<div class="rm-users">
 			<ul class="users">
-				
+
 			</ul>
 		</div>
 		<div class="rm-newmessage">
 			<input type="text" class="newmessage" autocomplete="off" placeholder="Type in your message and press enter !">
-			
+
 		</div>
 	</div>
 </body>
