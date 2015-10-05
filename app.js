@@ -20,16 +20,11 @@ app.use(cookieParser());
 
 var env = process.env.NODE_ENV || 'development';
 if(env === 'development'){
-	// development specific settings
 	app.use(session({secret:config.sessionSecret}));
 } else {
-	// production specific settings
-	// app.use(session({secret:'catscanfly'}));
-
 	app.use(session({
 		secret:config.sessionSecret,
 		store:new connectMongo({
-			// url:config.dbURL,
 			mongooseConnection:mongoose.connections[0],
 			stringify:true
 		})
@@ -43,11 +38,6 @@ require('./auth/passportAuth.js')(passport, FacebookStrategy, config, mongoose);
 
 require('./routes/routes.js')(express, app, passport, config, rooms);
 
-// app.listen(3000, function(){
-// 	console.log('ChatCAT works on port 3000');
-// 	console.log('Mode: '+env)
-// });
-
 app.set('port', process.env.PORT || 3000);
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
@@ -55,8 +45,3 @@ require('./socket/socket.js')(io, rooms);
 server.listen(app.get('port'), function(){
 	console.log('Chatcat on port: '+ app.get('port'));
 })
-
-
-
-
-
